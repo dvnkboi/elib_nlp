@@ -8,7 +8,8 @@ const uuid = require('uuid');
 const Socket = require('./utils/socket');
 const { Book, setupMongo } = require('./utils/mongo');
 
-const libPath = path.join(__dirname, './lib/main.py');
+const libPath = path.join(__dirname, './lib/python/main.py');
+const pythonPath = path.join(__dirname, './lib/python/venv/Scripts/python');
 
 process.env.PYTHONIOENCODING = 'utf-8';
 const { PythonShell } = require("python-shell");
@@ -51,7 +52,8 @@ app.use(express.json({
 const socketServer = new Socket(app);
 
 const nlp = new PythonShell(libPath, {
-  pythonOptions: ['-u']
+  pythonOptions: ['-u'],
+  pythonPath: pythonPath,
 });
 
 nlp.on("message", async (message) => {
