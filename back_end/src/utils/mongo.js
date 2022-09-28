@@ -34,7 +34,6 @@ const updateFuzzy = async (Model, attrs) => {
   }
 };
 
-
 const setupMongo = async () => {
   return new Promise(async (res) => {
     mongoose.Promise = global.Promise;

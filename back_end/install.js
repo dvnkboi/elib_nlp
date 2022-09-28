@@ -1,7 +1,6 @@
 const exec = require('child_process').exec;
 const path = require('path');
 
-const pipPath = path.join(__dirname, './src/lib/python/venv/Scripts/pip.exe');
 const requirements = path.join(__dirname, './src/lib/python/requirements.txt');
 
 
@@ -9,7 +8,8 @@ exec('yarn install', (err, out) => {
   if (err) throw new Error(err);
   console.log(out);
 }).on('close', () => {
-  exec(`"${pipPath}" install -r "${requirements}"`, (err, out) => {
+  console.log(`pip install -r "${requirements}"`);
+  exec(`pip install -r "${requirements}"`, (err, out) => {
     if (err) throw new Error(err);
     console.log(out);
   }).on('close', () => {

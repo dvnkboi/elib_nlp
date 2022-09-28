@@ -9,7 +9,6 @@ const Socket = require('./utils/socket');
 const { Book, setupMongo } = require('./utils/mongo');
 
 const libPath = path.join(__dirname, './lib/python/main.py');
-const pythonPath = path.join(__dirname, './lib/python/venv/Scripts/python');
 
 process.env.PYTHONIOENCODING = 'utf-8';
 const { PythonShell } = require("python-shell");
@@ -26,6 +25,7 @@ const processDefaults = {
   'tess_pattern': '^\w+$',
   'rect_pad': [3, 3],
 };
+
 const imageTimeouts = {};
 
 function checkFileExists(file) {
@@ -53,9 +53,10 @@ const socketServer = new Socket(app);
 
 const nlp = new PythonShell(libPath, {
   pythonOptions: ['-u'],
-  pythonPath: pythonPath,
 });
 
+
+// when python returns a result 
 nlp.on("message", async (message) => {
   console.log(message);
 
@@ -70,6 +71,7 @@ nlp.on("message", async (message) => {
   const id = message.id;
   const imagePath = getImagePath(id);
 
+  // when python return type is zoneText use this info to search in database
   if (message.type == 'zoneText') {
     let prevConf = 0;
     let result = null;
